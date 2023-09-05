@@ -131,6 +131,7 @@ public class LivespeechtotextPlugin: NSObject, FlutterPlugin, FlutterStreamHandl
                 self.eventSink?(nil)
                 flutterResult(nil)
                 print(error)
+                self.start(flutterResult: flutterResult)
             }
         }
     }
