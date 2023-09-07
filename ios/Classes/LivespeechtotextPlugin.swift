@@ -88,7 +88,8 @@ public class LivespeechtotextPlugin: NSObject, FlutterPlugin, FlutterStreamHandl
         }
 
         let audioSession = AVAudioSession.sharedInstance()
-        try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
+        // try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
+        try audioSession.setCategory(.playAndRecord, mode: .default, options: .defaultToSpeaker)
         try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         
         let inputNode = audioEngine.inputNode
@@ -131,7 +132,6 @@ public class LivespeechtotextPlugin: NSObject, FlutterPlugin, FlutterStreamHandl
                 self.eventSink?(nil)
                 flutterResult(nil)
                 print(error)
-                self.start(flutterResult: flutterResult)
             }
         }
     }
@@ -142,6 +142,11 @@ public class LivespeechtotextPlugin: NSObject, FlutterPlugin, FlutterStreamHandl
         self.recognitionRequest = nil
         self.recognitionTask?.cancel()
         self.recognitionTask = nil
+        do {
+            try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        } catch{
+            fatalError("Unable to release audio session")
+        }
     }
     
     public func getPermissions(callback: @escaping () -> Void){
