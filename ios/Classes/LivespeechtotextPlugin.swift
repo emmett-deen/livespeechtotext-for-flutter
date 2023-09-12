@@ -145,7 +145,7 @@ public class LivespeechtotextPlugin: NSObject, FlutterPlugin, FlutterStreamHandl
         do {
             try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
         } catch{
-            fatalError("Unable to release audio session")
+            print("Warning: Unable to release audio session")
         }
     }
     
